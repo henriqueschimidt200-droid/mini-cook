@@ -1,0 +1,152 @@
+
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mini Cook — seu copiloto de alimentação</title>
+<meta name="description" content="Mini Cook: analise fotos de alimentos, descubra receitas e organize sua semana.">
+<style>
+:root{--bg:#07110d;--panel:#0d1c15;--panel2:#12251b;--line:#1f3b2b;--text:#f5fff8;--muted:#a9c0b2;--brand:#63e68a;--brand2:#28bd69;--danger:#ff6b6b;--shadow:0 20px 70px rgba(0,0,0,.3)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% -10%,#173e2a 0,transparent 35%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+button,input{font:inherit}button{cursor:pointer}.wrap{max-width:1240px;margin:auto;padding:0 22px}
+nav{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(7,17,13,.85);backdrop-filter:blur(14px);z-index:10}
+.logo{display:flex;gap:10px;align-items:center;font-weight:900;font-size:21px}.logo i{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--brand),#d7ffdf);color:#06200f}
+.navlinks{display:flex;gap:8px}.navlinks button,.ghost{background:transparent;color:var(--muted);border:1px solid transparent;padding:10px 13px;border-radius:12px}.navlinks button:hover{color:#fff;background:var(--panel)}
+.primary{border:0;border-radius:14px;padding:12px 17px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#04200e;font-weight:850;box-shadow:0 8px 30px rgba(70,220,125,.18)}
+.hero{padding:66px 0 36px;display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center}.eyebrow{color:var(--brand);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:13px}.hero h1{font-size:clamp(40px,6vw,70px);line-height:.98;margin:12px 0 18px}.hero p{font-size:18px;line-height:1.6;color:var(--muted);max-width:680px}.heroActions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.foodcard{background:linear-gradient(145deg,#173622,#0c1a13);border:1px solid #31553d;border-radius:28px;padding:26px;box-shadow:var(--shadow);transform:rotate(1deg)}.foodplate{height:300px;border-radius:22px;background:radial-gradient(circle at 48% 48%,#e9b35a 0 19%,transparent 20%),radial-gradient(circle at 63% 43%,#76c96a 0 13%,transparent 14%),radial-gradient(circle at 35% 55%,#d75c52 0 13%,transparent 14%),radial-gradient(circle at 50% 50%,#f8f1d7 0 39%,#d9cfae 40% 42%,transparent 43%),linear-gradient(145deg,#264a31,#0c1912);display:grid;place-items:end;padding:15px}.scan{background:rgba(3,16,9,.78);border:1px solid #40674d;border-radius:14px;padding:12px;width:100%;backdrop-filter:blur(8px)}.scan b{color:var(--brand)}
+section{padding:42px 0}.sectionHead{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:20px}.sectionHead h2{font-size:30px;margin:0 0 6px}.sectionHead p{margin:0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:20px;padding:20px}.featureIcon{font-size:28px}.card h3{margin:12px 0 8px}.card p{color:var(--muted);line-height:1.55;margin:0}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.tab{border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:10px 14px;border-radius:12px}.tab.active{color:#052010;background:var(--brand);border-color:var(--brand)}
+.recipeTools{display:flex;gap:10px;flex-wrap:wrap}.recipeTools input{min-width:260px;flex:1;background:var(--panel);border:1px solid var(--line);color:#fff;border-radius:13px;padding:13px}.recipe{min-height:180px;display:flex;flex-direction:column;justify-content:space-between}.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:5px 8px;color:var(--muted);font-size:12px;margin-right:5px}.nutrition{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+.upload{border:1px dashed #467458;background:rgba(99,230,138,.04);border-radius:22px;padding:28px;text-align:center}.upload input{display:none}.upload label{display:inline-block}.preview{max-width:100%;max-height:360px;border-radius:18px;margin:16px auto;display:none}.result{display:none;margin-top:18px}.result.show{display:block}.resultGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.metric{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}.metric b{display:block;font-size:22px;margin-top:5px}.metric small{color:var(--muted)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.plan{position:relative}.plan.popular{border-color:var(--brand);box-shadow:0 0 0 1px rgba(99,230,138,.2),var(--shadow)}.badge{position:absolute;right:16px;top:16px;background:var(--brand);color:#052010;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:900}.price{font-size:34px;font-weight:900;margin:12px 0}.plan ul{padding-left:20px;color:var(--muted);line-height:1.9}
+.chat{height:520px;display:grid;grid-template-rows:1fr auto;border:1px solid var(--line);border-radius:22px;background:var(--panel);overflow:hidden}.messages{padding:18px;overflow:auto}.msg{max-width:78%;padding:12px 14px;border-radius:16px;margin:9px 0;white-space:pre-wrap;line-height:1.45}.me{margin-left:auto;background:var(--brand);color:#052010}.ai{background:var(--panel2);border:1px solid var(--line)}.chatbar{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}.chatbar input{flex:1;background:#07110d;border:1px solid var(--line);color:#fff;border-radius:13px;padding:13px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.68);display:none;place-items:center;padding:20px;z-index:20}.modal.open{display:grid}.modalbox{max-width:470px;width:100%;background:#0c1b13;border:1px solid var(--line);border-radius:22px;padding:24px}.modalbox input{width:100%;margin:7px 0;background:#07110d;border:1px solid var(--line);color:#fff;border-radius:12px;padding:13px}
+.toast{position:fixed;right:18px;bottom:18px;background:#10271a;border:1px solid #356347;padding:13px 16px;border-radius:14px;display:none;z-index:30}.toast.show{display:block}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted)}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.grid,.plans{grid-template-columns:1fr}.resultGrid{grid-template-columns:repeat(2,1fr)}.navlinks{display:none}}
+@media(max-width:600px){.wrap{padding:0 14px}.hero{padding-top:40px}.foodplate{height:220px}.hero h1{font-size:44px}.resultGrid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav><div class="wrap" style="width:100%;display:flex;align-items:center;justify-content:space-between"><div class="logo"><i>🍳</i> Mini Cook</div><div class="navlinks"><button onclick="go('analisar')">Foto & calorias</button><button onclick="go('receitas')">10 mil+ receitas</button><button onclick="go('treinos')">Treinos</button><button onclick="go('planos')">Planos</button></div><button class="ghost" onclick="openAuth()" id="accountBtn">Entrar</button></div></nav>
+
+<main class="wrap">
+<section class="hero">
+<div><div class="eyebrow">Seu copiloto de alimentação</div><h1>Olhe para sua comida. <span style="color:var(--brand)">O Mini Cook entende.</span></h1><p>Tire uma foto do seu prato, receba uma estimativa de calorias e macros, sugestões melhores e receitas parecidas. Organize sua semana e converse com uma IA feita para sua cozinha.</p><div class="heroActions"><button class="primary" onclick="go('analisar')">📸 Analisar meu prato</button><button class="ghost" onclick="go('receitas')">🍽️ Explorar receitas</button></div></div>
+<div class="foodcard"><div class="foodplate"><div class="scan"><b>Mini Cook Vision</b><br>Estimativa: <strong>520–650 kcal</strong><br><small style="color:var(--muted)">Proteína 34g · Carbo 48g · Gordura 22g</small></div></div></div>
+</section>
+
+<section><div class="sectionHead"><div><div class="eyebrow">Tudo em um lugar</div><h2>Feito para usar todos os dias</h2><p>Uma experiência completa, sem complicação.</p></div></div><div class="grid">
+<div class="card"><div class="featureIcon">📷</div><h3>Foto → análise</h3><p>Envie uma foto do alimento e obtenha uma estimativa de porção, calorias, macros e trocas mais leves.</p></div>
+<div class="card"><div class="featureIcon">🍲</div><h3>10.000+ receitas</h3><p>Pesquise por ingrediente, categoria, tempo e calorias. Abra cada receita para ver ingredientes, macros e preparo.</p></div>
+<div class="card"><div class="featureIcon">🏃</div><h3>Semana em movimento</h3><p>Treinos gerais para força, cardio, mobilidade e recuperação, adaptáveis ao seu tempo e nível.</p></div>
+</div></section>
+
+<section id="analisar"><div class="sectionHead"><div><div class="eyebrow">Mini Cook Vision</div><h2>O que tem no meu prato?</h2><p>As calorias mostradas são estimativas, não medições exatas.</p></div></div>
+<div class="card upload"><input id="photo" type="file" accept="image/*" onchange="previewPhoto(event)"><label for="photo" class="primary">📸 Escolher foto</label><img id="preview" class="preview"><div><button class="primary" id="analyzeBtn" onclick="analyze()" style="display:none">Analisar com Mini Cook</button></div><div id="analysisResult" class="result"></div></div></section>
+
+<section id="receitas"><div class="sectionHead"><div><div class="eyebrow">Biblioteca culinária</div><h2>10.000+ receitas</h2><p id="recipeCount">Carregando biblioteca...</p></div></div>
+<div class="recipeTools"><input id="search" placeholder="Ex.: frango, aveia, salada..." oninput="loadRecipes()"><button class="tab" onclick="quick('proteico')">Proteico</button><button class="tab" onclick="quick('low carb')">Low carb</button><button class="tab" onclick="quick('rápido')">Rápido</button></div><div id="recipes" class="grid" style="margin-top:16px"></div></section>
+
+<section id="treinos"><div class="sectionHead"><div><div class="eyebrow">Plano semanal</div><h2>Treino sem complicar</h2><p>Dicas gerais. Ajuste à sua condição e procure orientação profissional quando necessário.</p></div></div><div class="grid">
+<div class="card"><h3>Segunda · Força</h3><p>Agachamento, flexão, remada e ponte de glúteo. 3 séries, ritmo confortável.</p></div>
+<div class="card"><h3>Terça · Cardio</h3><p>20–30 min de caminhada rápida, bike ou outra atividade que você goste.</p></div>
+<div class="card"><h3>Quarta · Mobilidade</h3><p>10–15 min de mobilidade para quadril, ombros e coluna.</p></div>
+<div class="card"><h3>Quinta · Força</h3><p>Varie os movimentos de segunda e mantenha técnica antes de aumentar carga.</p></div>
+<div class="card"><h3>Sexta · Cardio</h3><p>Intervalos leves ou atividade contínua, de acordo com seu nível.</p></div>
+<div class="card"><h3>Fim de semana</h3><p>Recuperação ativa: caminhada, alongamento, lazer e descanso.</p></div>
+</div></section>
+
+<section><div class="sectionHead"><div><div class="eyebrow">Converse com o Mini Cook</div><h2>Seu assistente de cozinha</h2><p>Peça ideias, substituições, listas e combinações.</p></div></div>
+<div class="chat"><div class="messages" id="messages"><div class="msg ai">Oi! Eu sou o Mini Cook 🍳<br>Posso ajudar com receitas, ingredientes, organização das refeições e dicas gerais de treino.</div></div><div class="chatbar"><input id="chatInput" placeholder="Ex.: o que faço com frango e arroz?" onkeydown="if(event.key==='Enter')chat()"><button class="primary" onclick="chat()">Enviar</button></div></div></section>
+
+
+<section id="conta"><div class="sectionHead"><div><div class="eyebrow">Minha conta</div><h2>Seu Mini Cook</h2><p>Gerencie seu perfil, assinatura e uso diário.</p></div></div>
+<div class="grid">
+  <div class="card"><h3>Status</h3><p id="accountStatus">Entre para ver sua assinatura.</p><div style="margin-top:14px"><button class="primary" onclick="openAuth()">Entrar / criar conta</button> <button class="ghost" onclick="portal()">Gerenciar assinatura</button></div></div>
+  <div class="card"><h3>Perfil</h3><input id="pname" placeholder="Seu nome" style="width:100%;background:#07110d;border:1px solid var(--line);color:#fff;border-radius:12px;padding:12px;margin:5px 0"><select id="pgoal" style="width:100%;background:#07110d;border:1px solid var(--line);color:#fff;border-radius:12px;padding:12px;margin:5px 0"><option value="equilibrar">Equilibrar alimentação</option><option value="ganhar força">Ganhar força</option><option value="melhorar hábitos">Melhorar hábitos</option><option value="organizar rotina">Organizar rotina</option></select><button class="primary" onclick="saveProfile()" style="margin-top:8px">Salvar perfil</button></div>
+  <div class="card"><h3>Uso hoje</h3><p id="usageText">—</p><div class="metric" style="margin-top:12px"><small>Receitas disponíveis</small><b>12.000+</b></div></div>
+</div></section>
+
+<section id="planos"><div class="sectionHead"><div><div class="eyebrow">Premium</div><h2>Escolha seu ritmo</h2><p>Valores de exemplo; conecte os preços reais no Stripe antes de vender.</p></div></div>
+<div class="plans">
+<div class="card plan"><h3>Mensal</h3><div class="price">R$ 19,90</div><p style="color:var(--muted)">por mês</p><ul><li>Análises por foto</li><li>Mini Cook IA</li><li>Biblioteca completa</li><li>Plano semanal</li></ul><button class="primary" onclick="checkout('monthly')">Assinar mensal</button></div>
+<div class="card plan popular"><span class="badge">MAIS POPULAR</span><h3>Trimestral</h3><div class="price">R$ 49,90</div><p style="color:var(--muted)">a cada 3 meses</p><ul><li>Todos os recursos</li><li>Mais economia</li><li>IA + visão</li><li>Organização semanal</li></ul><button class="primary" onclick="checkout('quarterly')">Assinar trimestral</button></div>
+<div class="card plan"><h3>Anual</h3><div class="price">R$ 149,90</div><p style="color:var(--muted)">por ano</p><ul><li>Todos os recursos</li><li>Melhor custo</li><li>IA + visão</li><li>Receitas ilimitadas</li></ul><button class="primary" onclick="checkout('yearly')">Assinar anual</button></div>
+</div></section>
+</main>
+<footer><div class="wrap">© 2026 Mini Cook · Estimativas nutricionais são aproximadas e não substituem orientação profissional.</div></footer>
+
+<div class="modal" id="auth"><div class="modalbox"><button class="ghost" style="float:right" onclick="closeAuth()">✕</button><h2 id="authTitle">Entrar no Mini Cook</h2><input id="email" type="email" placeholder="Seu e-mail"><input id="password" type="password" placeholder="Senha (mín. 6 caracteres)"><button class="primary" style="width:100%;margin-top:10px" onclick="authAction()" id="authBtn">Entrar</button><button class="ghost" style="width:100%;margin-top:8px" onclick="toggleAuth()" id="toggleBtn">Criar conta</button></div></div>
+<div class="toast" id="toast"></div>
+<script>
+let authMode="login", token=localStorage.getItem("minicook_token")||"";
+const $=id=>document.getElementById(id);
+function toast(s){$("toast").textContent=s;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),3500)}
+function go(id){document.getElementById(id).scrollIntoView({behavior:"smooth"})}
+function openAuth(){ $("auth").classList.add("open") }
+function closeAuth(){ $("auth").classList.remove("open") }
+function toggleAuth(){authMode=authMode==="login"?"signup":"login";$("authTitle").textContent=authMode==="login"?"Entrar no Mini Cook":"Criar conta";$("authBtn").textContent=authMode==="login"?"Entrar":"Criar conta";$("toggleBtn").textContent=authMode==="login"?"Criar conta":"Já tenho conta"}
+async function authAction(){
+ const email=$("email").value.trim(), password=$("password").value;
+ const r=await fetch("/api/auth/"+(authMode==="login"?"login":"signup"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,password})});
+ const d=await r.json(); if(!r.ok)return toast(d.error||"Erro");
+ token=d.token;localStorage.setItem("minicook_token",token);closeAuth();updateAccount();toast("Pronto! Você está conectado.")
+}
+function updateAccount(){ $("accountBtn").textContent=token?"Minha conta":"Entrar" }
+updateAccount();
+async function previewPhoto(e){const f=e.target.files[0];if(!f)return;const url=URL.createObjectURL(f);$("preview").src=url;$("preview").style.display="block";$("analyzeBtn").style.display="inline-block"}
+async function analyze(){
+ if(!token){openAuth();return toast("Entre na sua conta para usar a análise por foto.")}
+ const f=$("photo").files[0];if(!f)return;
+ const reader=new FileReader();reader.onload=async()=>{
+  $("analyzeBtn").disabled=true;$("analyzeBtn").textContent="Analisando...";
+  try{const r=await fetch("/api/analyze-food",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({image:reader.result})});const d=await r.json();if(!r.ok)throw Error(d.error||"Erro");
+   $("analysisResult").classList.add("show");
+   $("analysisResult").innerHTML=`<div class="card"><h3>${esc(d.dish||"Alimento identificado")}</h3><div class="resultGrid">
+   <div class="metric"><small>Calorias</small><b>${d.calories_min??"—"}–${d.calories_max??"—"} kcal</b></div>
+   <div class="metric"><small>Proteína</small><b>${d.protein_g??"—"} g</b></div>
+   <div class="metric"><small>Carboidratos</small><b>${d.carbs_g??"—"} g</b></div>
+   <div class="metric"><small>Gorduras</small><b>${d.fat_g??"—"} g</b></div></div>
+   <p><strong>Porção estimada:</strong> ${esc(d.estimated_portion||"não determinada")}</p>
+   <p><strong>Dicas:</strong> ${esc((d.tips||[]).join(" · ")||"Sem dicas adicionais.")}</p>
+   <p><strong>Trocas:</strong> ${esc((d.healthier_swaps||[]).join(" · ")||"Sem trocas sugeridas.")}</p>
+   <p><strong>Receitas:</strong> ${esc((d.recipe_ideas||[]).join(" · ")||"Peça ideias ao Mini Cook.")}</p></div>`;
+  }catch(e){toast(e.message)}finally{$("analyzeBtn").disabled=false;$("analyzeBtn").textContent="Analisar com Mini Cook"}
+ };reader.readAsDataURL(f)
+}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+let page=1;
+async function loadRecipes(reset=true){if(reset)page=1;const q=encodeURIComponent($("search").value||"");const r=await fetch("/api/recipes?q="+q+"&page="+page+"&size=24");const d=await r.json();$("recipeCount").textContent=`${d.total.toLocaleString("pt-BR")} resultados para sua busca · biblioteca com 10.000+ receitas`;$("recipes").innerHTML=d.items.map(x=>`<div class="card recipe"><div><span class="pill">${esc(x.category)}</span><span class="pill">${x.time_min} min</span><h3>${esc(x.name)}</h3><div class="nutrition">🔥 ${x.calories} kcal · 💪 ${x.protein_g}g proteína · 🍚 ${x.carbs_g}g carbo · 🥑 ${x.fat_g}g gordura</div></div><button class="ghost" onclick="recipe(${x.id})">Ver preparo →</button></div>`).join("")}
+function quick(t){$("search").value=t;loadRecipes()}
+async function recipe(id){const r=await fetch("/api/recipes/"+id);const x=await r.json();alert(`${x.name}\n\nIngredientes:\n• ${x.ingredients.join("\n• ")}\n\nPreparo:\n${x.steps.map((s,i)=>i+1+". "+s).join("\n")}`)}
+async function chat(){
+ if(!token){openAuth();return}
+ const inp=$("chatInput"),message=inp.value.trim();if(!message)return;
+ $("messages").innerHTML+=`<div class="msg me">${esc(message)}</div>`;inp.value="";
+ const history=[...$("messages").querySelectorAll(".msg")].slice(-8).map(el=>({role:el.classList.contains("me")?"user":"assistant",content:el.textContent}));
+ const typing=document.createElement("div");typing.className="msg ai";typing.textContent="Mini Cook está pensando...";$("messages").appendChild(typing);$("messages").scrollTop=999999;
+ try{const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({message,history:history.slice(0,-1)})});const d=await r.json();if(!r.ok)throw Error(d.error||"Erro");typing.textContent=d.reply}catch(e){typing.textContent=e.message}
+}
+
+async function refreshAccount(){
+ if(!token){$("accountStatus").textContent="Você está no modo visitante.";return}
+ const r=await fetch("/api/me",{headers:{Authorization:"Bearer "+token}}); if(!r.ok){token="";localStorage.removeItem("minicook_token");return}
+ const d=await r.json(); $("accountStatus").innerHTML=d.premium?`⭐ Premium ativo${d.plan?" · "+d.plan:""}`:"🆓 Plano gratuito";
+ const u=await fetch("/api/usage",{headers:{Authorization:"Bearer "+token}}); if(u.ok){const x=await u.json();$("usageText").textContent=x.limit?`${x.used} de ${x.limit} usos gratuitos usados hoje.`:`Premium: usos ampliados.`}
+ const p=await fetch("/api/profile",{headers:{Authorization:"Bearer "+token}}); if(p.ok){const x=await p.json();$("pname").value=x.name||"";$("pgoal").value=x.goal||"equilibrar"}
+}
+async function saveProfile(){if(!token){openAuth();return}const r=await fetch("/api/profile",{method:"PUT",headers:{"Content-Type":"application/json",Authorization:"Bearer "+token},body:JSON.stringify({name:$("pname").value,goal:$("pgoal").value})});toast(r.ok?"Perfil salvo!":"Não foi possível salvar.");}
+async function portal(){if(!token){openAuth();return}const r=await fetch("/api/customer-portal",{method:"POST",headers:{Authorization:"Bearer "+token}});const d=await r.json();if(!r.ok)return toast(d.error||"Portal indisponível");location.href=d.url}
+refreshAccount();
+
+async function checkout(plan){
+ if(!token){openAuth();return toast("Entre na conta antes de assinar.")}
+ const r=await fetch("/api/create-checkout",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({plan})});const d=await r.json();if(!r.ok)return toast(d.error||"Pagamento indisponível");location.href=d.url;
+}
+loadRecipes();
+</script>
+</body>
+</html>
