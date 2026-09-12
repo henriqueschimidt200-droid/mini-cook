@@ -6,6 +6,10 @@ services:
     buildCommand: npm install
     startCommand: npm start
     envVars:
+      - key: NODE_ENV
+        value: production
+      - key: OPENROUTER_MODEL
+        value: openrouter/free
       - key: APP_URL
         sync: false
       - key: JWT_SECRET
@@ -14,9 +18,9 @@ services:
         sync: false
       - key: OPENROUTER_API_KEY
         sync: false
-      - key: OPENROUTER_MODEL
-        value: openrouter/free
       - key: OPENROUTER_VISION_MODEL
+        sync: false
+      - key: PREMIUM_CODE
         sync: false
       - key: STRIPE_SECRET_KEY
         sync: false

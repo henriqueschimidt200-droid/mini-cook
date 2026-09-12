@@ -1,28 +1,17 @@
-# Mini Cook PRO
+# Mini Cook — Platform Edition
 
-Aplicativo web full-stack com:
-- Mini Cook IA
-- análise de fotos de alimentos (OpenRouter Vision)
-- estimativa de calorias e macros com faixa de incerteza
-- 12.000+ receitas catalogadas
-- busca de receitas
-- chat com histórico recente
-- dicas de treino semanal
-- planos mensal, trimestral e anual
-- integração Stripe preparada
-- limite grátis de 5 mensagens/análises por dia
-- pronto para Render
+Versão 2.0 de uma plataforma web de alimentação com aparência de produto digital profissional.
 
-## Variáveis
-Veja `.env.example`.
+## Inclui
+- catálogo com 20.000 receitas estruturadas e pesquisáveis;
+- análise de foto de refeição via OpenRouter Vision;
+- estimativas de calorias e macronutrientes;
+- contas, perfil, favoritos e lista de compras;
+- planejamento semanal e sugestões gerais de treino;
+- código secreto para liberar Premium;
+- planos mensal, trimestral e anual;
+- Stripe Checkout + Billing Portal + webhook;
+- PostgreSQL/Supabase para persistência;
+- interface responsiva para desktop e celular.
 
-IMPORTANTE: a chave OpenRouter e as chaves Stripe devem ficar somente no servidor/Render, nunca no frontend.
-
-## Rodar
-npm install
-npm start
-
-Abra http://localhost:3000
-
-## Observações
-As estimativas nutricionais por foto são aproximadas. O app não deve ser usado como diagnóstico ou substituto de nutricionista, médico ou educador físico.
+> As receitas são um catálogo estruturado gerado por combinações de bases e variações; não são 20.000 receitas editoriais revisadas individualmente.

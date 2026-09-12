@@ -239,6 +239,16 @@ app.post("/api/shopping",auth,async(req,res)=>{
 });
 app.delete("/api/shopping/:id",auth,async(req,res)=>{if(pool)await pool.query("DELETE FROM shopping WHERE id=$1 AND user_id=$2",[req.params.id,req.user.id]);res.json({ok:true});});
 
+/* Access code */
+app.post("/api/redeem",auth,async(req,res)=>{
+  const code=String(req.body.code||"").trim();
+  const configured=String(process.env.PREMIUM_CODE||"").trim();
+  if(!configured) return res.status(503).json({error:"O sistema de códigos ainda não foi configurado."});
+  if(!code || code!==configured) return res.status(400).json({error:"Código inválido."});
+  await setUserPremium(req.user.id,{premium:true,plan:"Código de acesso",status:"active",endsAt:null});
+  res.json({ok:true,message:"Código ativado. Seu Premium foi liberado."});
+});
+
 /* AI */
 async function openrouter(body){
   if(!process.env.OPENROUTER_API_KEY) throw Object.assign(new Error("IA não configurada no servidor."),{status:503});
