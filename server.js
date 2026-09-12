@@ -11,7 +11,7 @@ const { Pool } = require("pg");
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
 const JWT_SECRET = process.env.JWT_SECRET || "CHANGE_ME_IN_RENDER";
-const recipes = JSON.parse(fs.readFileSync(path.join(__dirname,"data","recipes.json"),"utf8"));
+const recipes = Array.from({length:10}, (_,i) => JSON.parse(fs.readFileSync(path.join(__dirname,"data",`recipes-${String(i+1).padStart(2,"0")}.json`),"utf8"))).flat();
 
 /* -------------------- DATABASE -------------------- */
 const pool = process.env.DATABASE_URL
@@ -167,10 +167,16 @@ app.get("/api/recipes/count",(req,res)=>res.json({count:recipes.length}));
 
 app.get("/api/recipes", (req,res)=>{
   const q=String(req.query.q||"").trim().toLowerCase(), cat=String(req.query.category||"").trim().toLowerCase();
+  const cuisine=String(req.query.cuisine||"").trim().toLowerCase();
+  const diet=String(req.query.diet||"").trim().toLowerCase();
+  const difficulty=String(req.query.difficulty||"").trim().toLowerCase();
   const max=Number(req.query.max||99999);
   let list=recipes;
-  if(q) list=list.filter(r=>(r.name+" "+r.tags.join(" ")+" "+r.ingredients.join(" ")).toLowerCase().includes(q));
+  if(q) list=list.filter(r=>(r.name+" "+r.tags.join(" ")+" "+r.ingredients.join(" ")+" "+r.cuisine).toLowerCase().includes(q));
   if(cat) list=list.filter(r=>r.category.toLowerCase().includes(cat));
+  if(cuisine) list=list.filter(r=>r.cuisine.toLowerCase().includes(cuisine));
+  if(diet) list=list.filter(r=>r.diet.toLowerCase().includes(diet));
+  if(difficulty) list=list.filter(r=>r.difficulty.toLowerCase()===difficulty);
   list=list.filter(r=>r.calories<=max);
   const page=Math.max(1,Number(req.query.page||1)), size=Math.min(60,Math.max(1,Number(req.query.size||24)));
   const start=(page-1)*size;
